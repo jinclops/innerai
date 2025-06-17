@@ -11,15 +11,29 @@
 
   <header class="bg-white shadow p-4 flex justify-between items-center">
     <h1 class="text-2xl font-bold"><a href="./">InnerAI</a></h1>
-    <nav class="text-sm text-gray-600">
-      <span id="postList" class="space-x-4"></span>
+    <nav class="text-sm text-gray-600 space-x-4">
+      <span id="postList"></span>
+      <button id="editorToggle" class="text-blue-600 underline">✏️ Editor</button>
     </nav>
   </header>
 
-  <main class="flex-1 p-6 max-w-3xl mx-auto">
-    <div id="postContent" class="prose lg:prose-xl">
-      <p>Loading post...</p>
+  <main class="flex-1 p-6 max-w-4xl mx-auto space-y-8">
+
+    <!-- Blog post area -->
+    <div id="postContent" class="prose lg:prose-xl"></div>
+
+    <!-- Editor -->
+    <div id="editorContainer" class="hidden">
+      <h2 class="text-xl font-bold mb-2">Write Markdown</h2>
+      <textarea id="markdownInput" class="w-full h-64 border p-3 rounded" placeholder="# New Post..."></textarea>
+      <div class="flex gap-4 mt-4">
+        <button id="downloadBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Download .md</button>
+        <button id="closeEditor" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+      </div>
+      <h3 class="text-lg mt-6 mb-2 font-semibold">Live Preview</h3>
+      <div id="preview" class="prose border border-gray-300 p-4 rounded bg-white"></div>
     </div>
+
   </main>
 
   <footer class="bg-white p-4 text-center text-sm text-gray-500">
@@ -29,25 +43,27 @@
   <script>
     const postListEl = document.getElementById("postList");
     const postContentEl = document.getElementById("postContent");
+    const editorToggle = document.getElementById("editorToggle");
+    const editorContainer = document.getElementById("editorContainer");
+    const markdownInput = document.getElementById("markdownInput");
+    const preview = document.getElementById("preview");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const closeEditor = document.getElementById("closeEditor");
 
-    // Your list of markdown posts
-    const posts = ["hello-world.md"]; // Add more as needed
+    const posts = ["hello-world.md"];
 
-    // Extract ?post=hello-world.md from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const selectedPost = urlParams.get("post") || posts[0];
 
-    // Generate the nav
     posts.forEach(post => {
       const name = post.replace(".md", "").replace(/-/g, " ");
       const link = document.createElement("a");
       link.href = `?post=${post}`;
-      link.className = "hover:underline";
       link.textContent = name;
+      link.className = "hover:underline";
       postListEl.appendChild(link);
     });
 
-    // Fetch and render markdown
     fetch(`posts/${selectedPost}`)
       .then(res => {
         if (!res.ok) throw new Error("Post not found.");
@@ -59,7 +75,29 @@
       .catch(err => {
         postContentEl.innerHTML = `<p class="text-red-500">Error loading post: ${err.message}</p>`;
       });
-  </script>
 
+    editorToggle.addEventListener("click", () => {
+      editorContainer.classList.remove("hidden");
+      postContentEl.classList.add("hidden");
+    });
+
+    closeEditor.addEventListener("click", () => {
+      editorContainer.classList.add("hidden");
+      postContentEl.classList.remove("hidden");
+    });
+
+    markdownInput.addEventListener("input", () => {
+      const content = markdownInput.value;
+      preview.innerHTML = marked.parse(content);
+    });
+
+    downloadBtn.addEventListener("click", () => {
+      const blob = new Blob([markdownInput.value], { type: "text/markdown" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "new-post.md";
+      a.click();
+    });
+  </script>
 </body>
 </html>
