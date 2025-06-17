@@ -10,9 +10,12 @@
 <body class="min-h-screen flex flex-col">
 
   <header class="bg-white shadow p-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold"><a href="./">InnerAI</a></h1>
-    <button id="toggleIndex" class="text-sm text-blue-600 underline">📰 All Posts</button>
-  </header>
+  <h1 class="text-2xl font-bold"><a href="./">InnerAI</a></h1>
+  <div class="flex gap-4 items-center text-sm text-blue-600">
+    <button id="toggleIndex" class="underline">📰 All Posts</button>
+    <a href="/admin" class="text-green-600 underline">🔐 Login</a>
+  </div>
+</header>
 
   <main class="flex-1 p-6 max-w-4xl mx-auto space-y-8">
     <!-- Post list -->
