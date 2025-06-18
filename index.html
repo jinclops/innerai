@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-100 text-gray-900">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InnerAI Blog</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link href="style.css" rel="stylesheet" />
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <header class="bg-white shadow p-4 flex justify-between items-center">
-  <h1 class="text-2xl font-bold"><a href="./">InnerAI</a></h1>
-  <div class="flex gap-4 items-center text-sm text-blue-600">
-    <button id="toggleIndex" class="underline">📰 All Posts</button>
-    <a href="/admin" class="text-green-600 underline">🔐 Login</a>
-  </div>
-</header>
+  <header class="header">
+    <h1 class="title"><a href="./">InnerAI</a></h1>
+    <div class="nav">
+      <button id="toggleIndex" class="toggle-posts">📰 All Posts</button>
+    </div>
+  </header>
 
-  <main class="flex-1 p-6 max-w-4xl mx-auto space-y-8">
+  <main class="main">
     <!-- Post list -->
     <div id="postIndex" class="hidden">
-      <h2 class="text-xl font-bold mb-4">All Posts</h2>
-      <ul id="postList" class="list-disc list-inside space-y-2 text-blue-700"></ul>
+      <h2 class="post-index-title">All Posts</h2>
+      <ul id="postList" class="post-list"></ul>
     </div>
 
     <!-- Blog post area -->
-    <div id="postContent" class="prose lg:prose-xl">Loading post...</div>
+    <pre id="postContent" class="post-content">Loading post...</pre>
   </main>
 
-  <footer class="bg-white p-4 text-center text-sm text-gray-500">
-    &copy; 2025 InnerAI. All rights reserved.
+  <footer class="footer">
+    &copy; 2025 InnerAI. Built by spite, hosted by GitHub.
   </footer>
 
   <script>
+    // List your .txt posts here
     const posts = [
-      "example.md",
-      "hello-world.md"
+      "example.txt",
+      "rant-about-cms.txt",
+      "inner-dump-001.txt"
     ];
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -48,12 +48,12 @@
 
     // Render post list
     posts.forEach(post => {
-      const name = post.replace(".md", "").replace(/-/g, " ");
+      const name = post.replace(".txt", "").replace(/-/g, " ");
       const li = document.createElement("li");
       const link = document.createElement("a");
       link.href = "?post=" + post;
       link.textContent = name;
-      link.className = "hover:underline";
+      link.className = "post-link";
       li.appendChild(link);
       postListEl.appendChild(li);
     });
@@ -62,17 +62,18 @@
       postIndexEl.classList.toggle("hidden");
     });
 
-    // Fetch and render post
+    // Fetch and render plain text post
     fetch("posts/" + selectedPost)
       .then(res => {
         if (!res.ok) throw new Error("Post not found.");
         return res.text();
       })
-      .then(md => {
-        postContentEl.innerHTML = marked.parse(md);
+      .then(txt => {
+        postContentEl.textContent = txt;
       })
       .catch(err => {
-        postContentEl.innerHTML = "<p class='text-red-500'>Error loading post: " + err.message + "</p>";
+        postContentEl.textContent = "Error loading post: " + err.message;
+        postContentEl.classList.add("error");
       });
   </script>
 
