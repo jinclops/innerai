@@ -30,9 +30,8 @@ body {
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #3f51b5;
+  height: 40px;
+  object-fit: contain;
 }
 
 .menu-button {
