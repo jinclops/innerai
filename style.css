@@ -1,4 +1,3 @@
-/* Reset and base styles */
 body {
   margin: 0;
   font-family: "Roboto", system-ui, sans-serif;
@@ -6,11 +5,10 @@ body {
   color: #212121;
 }
 
-/* Topbar */
 .topbar {
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  height: 72px; /* Slightly taller than ChatGPT */
+  height: 72px;
   display: flex;
   align-items: center;
   padding: 0 24px;
@@ -20,10 +18,15 @@ body {
 }
 
 .topbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .logo {
@@ -49,7 +52,6 @@ body {
   border-radius: 4px;
 }
 
-/* Main content */
 .main-content {
   padding: 2rem;
 }
