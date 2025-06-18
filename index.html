@@ -3,79 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>InnerAI Blog</title>
-  <link href="style.css" rel="stylesheet" />
+  <title>InnerAI</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-  <header class="header">
-    <h1 class="title"><a href="./">InnerAI</a></h1>
-    <div class="nav">
-      <button id="toggleIndex" class="toggle-posts">📰 All Posts</button>
+  <!-- Top App Bar -->
+  <header class="topbar">
+    <div class="topbar-content">
+      <div class="logo">InnerAI</div>
+      <button class="menu-button" id="menuBtn">MENU</button>
     </div>
   </header>
 
-  <main class="main">
-    <!-- Post list -->
-    <div id="postIndex" class="hidden">
-      <h2 class="post-index-title">All Posts</h2>
-      <ul id="postList" class="post-list"></ul>
+  <!-- Main content -->
+  <main class="main-content">
+    <div class="placeholder">
+      <p>This is your homepage. Design phase only — no functionality yet.</p>
     </div>
-
-    <!-- Blog post area -->
-    <pre id="postContent" class="post-content">Loading post...</pre>
   </main>
-
-  <footer class="footer">
-    &copy; 2025 InnerAI. Built by spite, hosted by GitHub.
-  </footer>
-
-  <script>
-    // List your .txt posts here
-    const posts = [
-      "example.txt",
-      "rant-about-cms.txt",
-      "inner-dump-001.txt"
-    ];
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedPost = urlParams.get("post") || posts[0];
-
-    const postListEl = document.getElementById("postList");
-    const postContentEl = document.getElementById("postContent");
-    const postIndexEl = document.getElementById("postIndex");
-    const toggleIndexBtn = document.getElementById("toggleIndex");
-
-    // Render post list
-    posts.forEach(post => {
-      const name = post.replace(".txt", "").replace(/-/g, " ");
-      const li = document.createElement("li");
-      const link = document.createElement("a");
-      link.href = "?post=" + post;
-      link.textContent = name;
-      link.className = "post-link";
-      li.appendChild(link);
-      postListEl.appendChild(li);
-    });
-
-    toggleIndexBtn.addEventListener("click", () => {
-      postIndexEl.classList.toggle("hidden");
-    });
-
-    // Fetch and render plain text post
-    fetch("posts/" + selectedPost)
-      .then(res => {
-        if (!res.ok) throw new Error("Post not found.");
-        return res.text();
-      })
-      .then(txt => {
-        postContentEl.textContent = txt;
-      })
-      .catch(err => {
-        postContentEl.textContent = "Error loading post: " + err.message;
-        postContentEl.classList.add("error");
-      });
-  </script>
 
 </body>
 </html>
