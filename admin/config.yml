@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: jinclops/innerai
   branch: main
 
 media_folder: "images/uploads"
@@ -12,9 +13,5 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-      - label: "Body"
-        name: "body"
-        widget: "markdown"
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
